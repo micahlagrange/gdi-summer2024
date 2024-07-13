@@ -75,7 +75,7 @@ jobs:
     - name: Publish to Itch.io (Web)
       uses: yeslayla/butler-publish-itchio-action@v1.0.3
       env:
-        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
         ITCH_USER: ${{env.ITCH_USER}}
         ITCH_GAME: ${{env.ITCH_GAME}}
         CHANNEL: html
@@ -84,7 +84,7 @@ jobs:
     - name: Publish to Itch.io (Linux)
       uses: yeslayla/butler-publish-itchio-action@v1.0.3
       env:
-        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
         ITCH_USER: ${{env.ITCH_USER}}
         ITCH_GAME: ${{env.ITCH_GAME}}
         CHANNEL: linux 
@@ -93,7 +93,7 @@ jobs:
     - name: Publish to Itch.io (Win64)
       uses: yeslayla/butler-publish-itchio-action@v1.0.3
       env:
-        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
         ITCH_USER: ${{env.ITCH_USER}}
         ITCH_GAME: ${{env.ITCH_GAME}}
         CHANNEL: windows
@@ -102,7 +102,7 @@ jobs:
     - name: Publish to Itch.io (MacOS)
       uses: yeslayla/butler-publish-itchio-action@v1.0.3
       env:
-        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
         ITCH_USER: ${{env.ITCH_USER}}
         ITCH_GAME: ${{env.ITCH_GAME}}
         CHANNEL: osx 
