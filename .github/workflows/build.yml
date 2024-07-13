@@ -1,15 +1,15 @@
 name: continuous-integration
 on: [push]
 env:
-  GAME_NAME: zero-days-and-nights
+  GAME_NAME: zero-days-to-live
   # unfortunately we need to also hardcode game name here in env since definitions in env can't reference eachother
-  ARTIFACT_PATH_LOVE: main/makelove-build/love/zero-days-and-nights.love
-  ARTIFACT_PATH_APPIMAGE: main/makelove-build/appimage/zero-days-and-nights.AppImage
-  ARTIFACT_PATH_WIN64: main/makelove-build/win64/zero-days-and-nights-win64.zip
-  ARTIFACT_PATH_MACOS: main/makelove-build/macos/zero-days-and-nights-macos.zip
-  ARTIFACT_PATH_LOVEJS: main/makelove-build/lovejs/zero-days-and-nights-lovejs.zip
+  ARTIFACT_PATH_LOVE: main/makelove-build/love/zero-days-to-live.love
+  ARTIFACT_PATH_APPIMAGE: main/makelove-build/appimage/zero-days-to-live.AppImage
+  ARTIFACT_PATH_WIN64: main/makelove-build/win64/zero-days-to-live-win64.zip
+  ARTIFACT_PATH_MACOS: main/makelove-build/macos/zero-days-to-live-macos.zip
+  ARTIFACT_PATH_LOVEJS: main/makelove-build/lovejs/zero-days-to-live-lovejs.zip
   ITCH_USER: multivoxmuse
-  ITCH_GAME: zero-days-and-nights
+  ITCH_GAME: zero-days-to-live
 
 jobs:
   build:

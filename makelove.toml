@@ -1,4 +1,4 @@
-name = "zero-days-and-nights"
+name = "zero-days-to-live"
 default_targets = ["macos", "appimage", "win64", "lovejs"]
 build_directory = "makelove-build"
 
@@ -19,7 +19,7 @@ memory = "200000000"  # starting memory of the webpage (default is 20 MB)
 
 [macos.app_metadata]
 CFBundleName = "Zero Days To Live"
-CFBundleIdentifier = "dev.micahturner.zero-days-and-nights"
+CFBundleIdentifier = "dev.micahturner.zero-days-to-live"
 NSHumanReadableCopyright = "Copyright © 2024 Micah Turner"
 CFBundleShortVersionString = "0.0.1"
 
@@ -30,4 +30,4 @@ CompanyName = "Micah Turner" # "LÖVE World Domination Inc."
 LegalCopyright = "Copyright © 2024 Micah Turner"
 ProductName = "{name}" # "LÖVE"
 ProductVersion = "{version}"
-OriginalFilename = "zero-days-and-nights.exe" # "love.exe"
+OriginalFilename = "zero-days-to-live.exe" # "love.exe"
