@@ -1,11 +1,8 @@
-DEFAULT_FONT = 'fonts/white-rabbit.TTF'
 DEBUG = true
-SCALE = 5
-WINDOW_WIDTH = 128
-WINDOW_HEIGHT = 68
-CELL_SIZE = 8 * SCALE -- Define the size of each cell in the grid
-FIXED_WIDTH_FONT = true
-FONT_SIZE = 5
+SCALE = 1
+WINDOW_WIDTH = 1024
+WINDOW_HEIGHT = 768
+TILE_SIZE = 32
 
 function love.conf(t)
     t.title = "ZeroDaysAndNights"
