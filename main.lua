@@ -1,5 +1,7 @@
 local Enemy = require('src.enemy')
 
+love.graphics.setDefaultFilter("nearest", "nearest")
+
 local platform = {}
 local player = {}
 local counter = 0

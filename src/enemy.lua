@@ -19,11 +19,11 @@ MEDUSA = 'medusa'
 
 local clearable = {}
 
-local snekDelay = 8.1138
-local medusaDelay = 4.42069
+local medusaDelay = 8.1138
+local snekDelay = 4.42069
 
 local snektimer = snekDelay
-local medusatimer = 0 --medusaDelay
+local medusatimer = medusaDelay
 
 function Enemy.New(entity, enemyType)
     local e = enemy(entity, enemyType)
