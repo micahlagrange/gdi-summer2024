@@ -31,7 +31,7 @@ local medusatimer = 15
 local eyeTimer = 10
 local carTimer = 5
 
-local difficultyDelay = 15
+local difficultyDelay = 30
 local difficultyTimer = difficultyDelay
 local difficultyIncrement = 1
 
@@ -107,10 +107,10 @@ local function pickSpawnEnemy(dt)
         medusaDelay = medusaDelay - difficultyIncrement
         carDelay = carDelay - difficultyIncrement
         eyeDelay = eyeDelay - difficultyIncrement
-        if snekDelay < 0 then snekDelay = .1 end
-        if carDelay < 0 then carDelay = .1 end
-        if medusaDelay < 0 then medusaDelay = .1 end
-        if eyeDelay < 0 then eyeDelay = .1 end
+        if snekDelay < 1 then snekDelay = 1 end
+        if carDelay < 1 then carDelay = 1 end
+        if medusaDelay < 1 then medusaDelay = 1 end
+        if eyeDelay < 1 then eyeDelay = 1 end
     end
 
     snektimer = snektimer - dt
