@@ -21,19 +21,19 @@ CAR = 'car'
 
 local clearable = {}
 
-local medusaDelay = 13.1138
-local snekDelay = 3.42069
-local eyeDelay = 7.1138
-local carDelay = 11.09
+local medusaDelay = 30.34
+local snekDelay = 7.1055
+local eyeDelay = 14.1138
+local carDelay = 28.0188
 
-local snektimer = snekDelay
-local medusatimer = medusaDelay
-local eyeTimer = eyeDelay
-local carTimer = carDelay
+local snektimer = 0
+local medusatimer = 15
+local eyeTimer = 10
+local carTimer = 5
 
-local difficultyDelay = 5
+local difficultyDelay = 15
 local difficultyTimer = difficultyDelay
-local difficultyIncrement = .5
+local difficultyIncrement = 1
 
 local announceMessage = ""
 local announceDelay = 5
@@ -69,14 +69,19 @@ function enemy:new(entity, enemyType)
     self.currentAnim8 = self.animations.walk
 
     self.x = entity.x
-    self.y = entity.y
+    if enemyType == EYE then
+        self.y = entity.y - EyeVerticalAdjustment
+    else
+        self.y = entity.y
+    end
+
     self.scaleX, self.scaleY = ENEMY_SCALE, ENEMY_SCALE
     self.width = TILE_SIZE * ENEMY_SCALE
     self.height = TILE_SIZE * ENEMY_SCALE
 
     self.frequency = math.random(523, 999) / 100000
     self.amplitude = WINDOW_HEIGHT / 2 + math.random(5, 20)
-    self.speed = (ENEMY_SPEED + math.random(5, 20))
+    self.speed = (ENEMY_SPEED + math.random(1, 40))
 
     print('speed ' .. self.speed .. ' amp ' .. self.amplitude .. ' freq ' .. self.frequency)
 end
@@ -157,7 +162,6 @@ function enemy:hit(isBullet)
 end
 
 function enemy:draw()
-    showAnnouncement()
     love.graphics.setColor(1, 1, 1)
     self.currentAnim8:draw(
         self.image,
@@ -186,6 +190,7 @@ function enemy:checkCollision(playerX, playerY)
 end
 
 local medusaVerticalAdjustment = 380
+EyeVerticalAdjustment = 34
 
 function enemy:movementCalc(dt)
     if self.x < -(TILE_SIZE * 3) then
@@ -204,7 +209,6 @@ function enemy:movementCalc(dt)
 end
 
 function enemy:update(dt, playerX, playerY)
-    announceTimer = announceTimer - dt
     local collided = false
     if self:checkCollision(playerX, playerY) then
         self:attak()
@@ -220,6 +224,7 @@ function enemy:update(dt, playerX, playerY)
 end
 
 function Enemy.DrawEnemies()
+    showAnnouncement()
     for _, e in ipairs(enemies) do
         e:draw()
     end
@@ -240,11 +245,12 @@ end
 
 function Enemy.UpdateEnemies(dt, playerX, playerY)
     pickSpawnEnemy(dt)
-
+    announceTimer = announceTimer - dt
     local collided = false
     for _, e in ipairs(enemies) do
         clearDead()
-        collided = e:update(dt, playerX, playerY)
+        local ec = e:update(dt, playerX, playerY)
+        if ec then collided = true end
     end
     return collided
 end
