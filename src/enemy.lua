@@ -16,14 +16,28 @@ local enemies = {}
 
 SNEK = 'snek'
 MEDUSA = 'medusa'
+EYE = 'eye'
+CAR = 'car'
 
 local clearable = {}
 
-local medusaDelay = 8.1138
-local snekDelay = 4.42069
+local medusaDelay = 13.1138
+local snekDelay = 3.42069
+local eyeDelay = 7.1138
+local carDelay = 11.09
 
 local snektimer = snekDelay
-local medusatimer = 0 --medusaDelay
+local medusatimer = medusaDelay
+local eyeTimer = eyeDelay
+local carTimer = carDelay
+
+local difficultyDelay = 5
+local difficultyTimer = difficultyDelay
+local difficultyIncrement = .5
+
+local announceMessage = ""
+local announceDelay = 5
+local announceTimer = announceDelay
 
 function Enemy.New(entity, enemyType)
     local e = enemy(entity, enemyType)
@@ -34,6 +48,8 @@ end
 local function enemySprite(enemyType)
     local enemyTypeSpriteMap = {}
     enemyTypeSpriteMap[MEDUSA] = 'assets/images/medusa-anims.png'
+    enemyTypeSpriteMap[EYE] = 'assets/images/eye-anims.png'
+    enemyTypeSpriteMap[CAR] = 'assets/images/car-anims.png'
     enemyTypeSpriteMap[SNEK] = 'assets/images/snek-anims.png'
     return enemyTypeSpriteMap[enemyType]
 end
@@ -48,7 +64,7 @@ function enemy:new(entity, enemyType)
     self.animations.idle = Anim8.newAnimation(self.animGrid('1-6', 1), 0.2)
     self.animations.walk = Anim8.newAnimation(self.animGrid('1-4', 2), 0.1)
     self.animations.attac = Anim8.newAnimation(self.animGrid('1-5', 3), 0.1, function() self:resetAnim() end)
-    self.animations.frozen = Anim8.newAnimation(self.animGrid('1-1', 4), 0.5, 'pauseAtEnd')
+    self.animations.frozen = Anim8.newAnimation(self.animGrid('1-1', 1), 0.5, 'pauseAtEnd')
     self.animations.ded = Anim8.newAnimation(self.animGrid('2-3', 4), 0.3, 'pauseAtEnd')
     self.currentAnim8 = self.animations.walk
 
@@ -65,17 +81,55 @@ function enemy:new(entity, enemyType)
     print('speed ' .. self.speed .. ' amp ' .. self.amplitude .. ' freq ' .. self.frequency)
 end
 
+local function announce(message)
+    announceTimer = announceDelay
+    announceMessage = message
+end
+
+local function showAnnouncement(dt)
+    if announceTimer > 0 then
+        love.graphics.setColor(1,1,1)
+        love.graphics.print(announceMessage, WINDOW_WIDTH / 6, WINDOW_HEIGHT / 2 + 30)
+    end
+end
+
 local function pickSpawnEnemy(dt)
+    difficultyTimer = difficultyTimer - dt
+    if difficultyTimer <= 0 then
+        difficultyTimer = difficultyDelay
+        announce("DIFFICULTY INCREASE")
+        snekDelay = snekDelay - difficultyIncrement
+        medusaDelay = medusaDelay - difficultyIncrement
+        carDelay = carDelay - difficultyIncrement
+        eyeDelay = eyeDelay - difficultyIncrement
+        if snekDelay < 0 then snekDelay = .1 end
+        if carDelay < 0 then carDelay = .1 end
+        if medusaDelay < 0 then medusaDelay = .1 end
+        if eyeDelay < 0 then eyeDelay = .1 end
+    end
+
     snektimer = snektimer - dt
-    medusatimer = medusatimer - dt
     if snektimer <= 0 then
         Enemy.New(ENEMY_SPAWN, SNEK)
         snektimer = snekDelay
     end
 
+    medusatimer = medusatimer - dt
     if medusatimer <= 0 then
         Enemy.New(ENEMY_SPAWN, MEDUSA)
         medusatimer = medusaDelay
+    end
+
+    eyeTimer = eyeTimer - dt
+    if eyeTimer <= 0 then
+        Enemy.New(ENEMY_SPAWN, EYE)
+        eyeTimer = eyeDelay
+    end
+
+    carTimer = carTimer - dt
+    if carTimer <= 0 then
+        Enemy.New(ENEMY_SPAWN, CAR)
+        carTimer = carDelay
     end
 end
 
@@ -87,7 +141,7 @@ function enemy:attak()
 end
 
 function enemy:resetAnim()
-    self.currentAnim8 = self.animations.idle
+    self.currentAnim8 = self.animations.frozen
 end
 
 function enemy:hit(isBullet)
@@ -103,6 +157,7 @@ function enemy:hit(isBullet)
 end
 
 function enemy:draw()
+    showAnnouncement()
     love.graphics.setColor(1, 1, 1)
     self.currentAnim8:draw(
         self.image,
@@ -137,18 +192,19 @@ function enemy:movementCalc(dt)
         table.insert(clearable, self.name)
     end
 
-    if self.enemyType == SNEK then
-        self.x = self.x - dt * ENEMY_SPEED
-    elseif self.enemyType == MEDUSA then
+    if self.enemyType == MEDUSA then
         self.y = medusaVerticalAdjustment + (
             self.amplitude *
             math.sin(self.frequency * self.x)
         )
         self.x = self.x - (self.speed * dt)
+    else
+        self.x = self.x - dt * self.speed
     end
 end
 
 function enemy:update(dt, playerX, playerY)
+    announceTimer = announceTimer - dt
     local collided = false
     if self:checkCollision(playerX, playerY) then
         self:attak()
