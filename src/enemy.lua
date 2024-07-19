@@ -23,7 +23,7 @@ local medusaDelay = 8.1138
 local snekDelay = 4.42069
 
 local snektimer = snekDelay
-local medusatimer = medusaDelay
+local medusatimer = 0 --medusaDelay
 
 function Enemy.New(entity, enemyType)
     local e = enemy(entity, enemyType)
@@ -79,7 +79,7 @@ local function pickSpawnEnemy(dt)
     end
 end
 
-function enemy:attak(player)
+function enemy:attak()
     if self.frozen then return false end
 
     self.currentAnim8 = self.animations.attac
@@ -151,6 +151,7 @@ end
 function enemy:update(dt, playerX, playerY)
     local collided = false
     if self:checkCollision(playerX, playerY) then
+        self:attak()
         collided = true
     end
     self.currentAnim8:update(dt)
