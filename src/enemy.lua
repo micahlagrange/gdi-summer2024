@@ -21,6 +21,7 @@ CAR = 'car'
 
 local clearable = {}
 
+
 local medusaDelay = 30.34
 local snekDelay = 7.1055
 local eyeDelay = 14.1138
